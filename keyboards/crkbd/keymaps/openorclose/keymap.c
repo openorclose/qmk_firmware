@@ -1,5 +1,7 @@
 #include QMK_KEYBOARD_H
 
+#include "g/keymap_combo.h"
+
 #define U_NP KC_NO // key is not present
 #define U_NA KC_NO // present but not available for use
 #define U_NU KC_NO // available but not used
@@ -30,13 +32,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [QWERTY] = LAY(
   
     KC_Q,              KC_W,              KC_E,              KC_R,              KC_T,              KC_Y,              KC_U,              KC_I,              KC_O,              KC_P,
-    LGUI_T(KC_A),      LALT_T(KC_S),      LCTL_T(KC_D),      LSFT_T(KC_F),      KC_G,              KC_H,              LSFT_T(KC_J),      LCTL_T(KC_K),      LALT_T(KC_L),      LGUI_T(KC_QUOT),
-    LT(CODE, KC_Z),  ALGR_T(KC_X),      KC_C,              KC_V,              KC_B,              KC_N,              KC_M,              KC_COMM,           ALGR_T(KC_DOT),    LT(CODE, KC_SLSH),
-    U_NP,              U_NP,              LT(MEDIA, KC_ESC), LT(NAV, KC_SPC),   LT(MOUSE, KC_TAB), LT(SYM, KC_ENT),   LT(NUM, KC_BSPC),  LT(FUN, KC_DEL),   U_NP,              U_NP
+    KC_A,      KC_S,      KC_D,      KC_F,      KC_G,              KC_H,              KC_J,      KC_K,      KC_L,      KC_QUOT,
+    KC_Z,  KC_X,      KC_C,              KC_V,              KC_B,              KC_N,              KC_M,              KC_COMM,           KC_DOT,    KC_SLSH,
+    U_NP,              U_NP,              LT(MEDIA, KC_ESC), KC_SPC,   LT(MOUSE, KC_TAB), LT(SYM, KC_ENT),   KC_BSPC,  LT(FUN, KC_DEL),   U_NP,              U_NP
   ), 
   [BASE] = LAY(
     KC_Q,              KC_W,              KC_F,              KC_P,              KC_B,              KC_J,              KC_L,              KC_U,              KC_Y,              KC_QUOT,
-    LGUI_T(KC_A),      LALT_T(KC_R),      LCTL_T(KC_S),      LSFT_T(KC_T),      KC_G,              KC_M,              LSFT_T(KC_N),      LCTL_T(KC_E),      LALT_T(KC_I),      LGUI_T(KC_O),
+    LGUI_T(KC_A),      LALT_T(KC_R),      LCTL_T(KC_S),      LSFT_T(KC_T),      KC_G,              KC_M,              RSFT_T(KC_N),      LCTL_T(KC_E),      LALT_T(KC_I),      LGUI_T(KC_O),
     KC_Z,  ALGR_T(KC_X),      KC_C,              LT(CODE, KC_D),              KC_V,              KC_K,              LT(CODE, KC_H),              KC_COMM,           ALGR_T(KC_DOT),    KC_SLSH,
     U_NP,              U_NP,              LT(MOUSE, KC_ESC), LT(NAV, KC_SPC),   LT(MEDIA, KC_TAB), LT(SYM, KC_ENT),   LT(NUM, KC_BSPC),  LT(FUN, KC_DEL),   U_NP,              U_NP
   ),
@@ -148,14 +150,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
         state = STATE_WORD;
         break;
       case SELSENT:
-        ;
-        const uint8_t mods = get_mods();
         if (state == STATE_NONE) {
           clear_mods();
           SEND_STRING(SS_TAP(X_HOME) SS_LSFT(SS_TAP(X_END)));
-          set_mods(mods);
           state = STATE_FIRST_LINE;
         } else {
+          register_code(KC_LSFT);
           register_code(KC_DOWN);
           state = STATE_LINE;
         }
@@ -179,7 +179,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
       break;
 
     case STATE_LINE:
+
       unregister_code(KC_DOWN);
+      unregister_code(KC_LSFT);
       state = STATE_SELECTED;
       break;
 
@@ -195,52 +197,4 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
   }
 
   return true;
-}
-
-enum combo_events {
-  CAPS_COMBO,
-  Q_COMBO,
-  QU_COMBO,
-  QUOTE, 
-  DQ, 
-  ENDSENTENCE,
-  // Other combos...
-  COMBO_LENGTH
-};
-uint16_t COMBO_LEN = COMBO_LENGTH;
-
-const uint16_t PROGMEM q[] = {KC_W, LALT_T(KC_R), COMBO_END};
-const uint16_t PROGMEM qu[] = {KC_F, LCTL_T(KC_S), COMBO_END};
-const uint16_t PROGMEM quote[] = {KC_L, LSFT_T(KC_N), COMBO_END};
-const uint16_t PROGMEM dq[] = {KC_U, LCTL_T(KC_E), COMBO_END};
-const uint16_t PROGMEM caps_combo[] = {KC_V, KC_K, COMBO_END};
-const uint16_t PROGMEM es[] = {KC_COMM,           ALGR_T(KC_DOT), COMBO_END};
-
-combo_t key_combos[] = {
-  [CAPS_COMBO] = COMBO_ACTION(caps_combo),
-  [Q_COMBO] = COMBO(q, KC_Q),
-  [QU_COMBO] = COMBO_ACTION(qu),
-  [QUOTE] = COMBO(quote, KC_QUOT),
-  [DQ] = COMBO(dq, KC_DOUBLE_QUOTE),
-  [ENDSENTENCE] = COMBO(es, ENDSENT)
-  // Other combos...
-};
-
-void process_combo_event(uint16_t combo_index, bool pressed) {
-  switch(combo_index) {
-    case CAPS_COMBO:
-      if (pressed) {
-        tap_code(KC_Q);
-        caps_word_set(true);  // Activate Caps Word!
-      }
-      break;
-    case QU_COMBO:
-      if (pressed) {
-        tap_code(KC_Q);
-        tap_code(KC_U);
-      }
-      break;
-
-    // Other combos...
-  }
 }
