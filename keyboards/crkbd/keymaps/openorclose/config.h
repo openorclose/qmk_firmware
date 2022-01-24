@@ -19,6 +19,7 @@ KC_NO, K20,   K21,   K22,   K23,   K24,          K25,   K26,   K27,   K28,   K29
                      K32,   K33,   K34,          K35,   K36,   K37\
 )
 
+#define EE_HANDS
 
 #define COMBO_VARIABLE_LEN
 // default but used in macros
