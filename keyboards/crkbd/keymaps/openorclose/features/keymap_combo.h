@@ -6,7 +6,25 @@
 
 #define A_ENUM(name, string, ...) name,
 #define A_DATA(name, string, ...) const uint16_t PROGMEM cmb_##name[] = {__VA_ARGS__, COMBO_END};
+#define S_DATA(name, string, string2, ...) const uint16_t PROGMEM cmb_##name[] = {__VA_ARGS__, COMBO_END};
 #define A_COMB(name, string, ...) [name] = COMBO_ACTION(cmb_##name),
+#define S_ACTI(name, A, B, ...) \
+    case name: \
+        if (pressed) { \
+            if (caps_word_get()) { \
+                register_code(KC_LSFT); \
+                SEND_STRING(A); \
+                SEND_STRING(B); \
+                unregister_code(KC_LSFT); \
+            } else { \
+                SEND_STRING(A); \
+                if (get_mods() & MOD_MASK_SHIFT) { \
+                    del_mods(MOD_MASK_SHIFT); \
+                } \
+                SEND_STRING(B); \
+            }     \
+        } \
+        break;
 #define A_ACTI(name, string, ...)         \
     case name:                            \
         if (pressed) SEND_STRING(string); \
@@ -38,7 +56,7 @@ uint16_t COMBO_LEN = COMBO_LENGTH;
 #undef SUBS
 #undef TOGG
 #define COMB K_DATA
-#define SUBS A_DATA
+#define SUBS S_DATA
 #define TOGG A_DATA
 #include "combos.def"
 #undef COMB
@@ -58,7 +76,7 @@ combo_t key_combos[] = {
 
 // Fill QMK hook
 #define COMB BLANK
-#define SUBS A_ACTI
+#define SUBS S_ACTI
 #define TOGG A_TOGG
 void process_combo_event(uint16_t combo_index, bool pressed) {
     switch (combo_index) {

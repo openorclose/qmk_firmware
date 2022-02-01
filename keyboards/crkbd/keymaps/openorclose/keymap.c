@@ -34,11 +34,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     U_NP,              U_NP,              LT(MOUSE, KC_ESC), LT(NAV, KC_SPC),   LT(MEDIA, KC_TAB), LT(SYM, KC_ENT),   LT(NUM, KC_BSPC),  LT(FUN, KC_DEL),   U_NP,              U_NP
   ),
   [QWERTY] = LAY(
+    KC_NO,              KC_C,              KC_Y,              KC_F,              KC_NO,              KC_NO,              KC_L,              KC_COMM,              KC_U,              KC_NO,
+    KC_R,      KC_S,      KC_T,      KC_H,      KC_NO,              KC_NO,              KC_N,      KC_A,      KC_I,      KC_O,
+    KC_V, KC_P, KC_G,  KC_D,      KC_NO,              KC_NO,                           KC_M,              KC_W,               KC_DOT,  KC_B,
+    U_NP,              U_NP,              KC_ESC, KC_SPC,   KC_TAB,  KC_BSPC,   KC_E,  KC_DEL,   U_NP,              U_NP
+  ),
+ /* [QWERTY] = LAY(
     KC_Q,              KC_W,              KC_E,              KC_R,              KC_T,              KC_Y,              KC_U,              KC_I,              KC_O,              KC_P,
     KC_A,      KC_S,      KC_D,      KC_F,      KC_G,              KC_H,              KC_J,      KC_K,      KC_L,      KC_QUOT,
     KC_Z,  KC_X,      KC_C,              KC_V,              KC_B,              KC_N,              KC_M,              KC_COMM,           KC_DOT,    KC_SLSH,
     U_NP,              U_NP,              KC_ESC, KC_SPC,   KC_TAB,  KC_ENT,   KC_BSPC,  KC_DEL,   U_NP,              U_NP
-  ), 
+  ), */
   [NAV] = LAY(
     RESET,   U_NA,    U_NA,    U_NA,    U_NA,    U_RDO,   U_PST,   U_CPY,   U_CUT,   U_UND,
     KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, U_NA,    KC_CAPS, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,
