@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #        ifndef MK_KINETIC_SPEED
 #            define MOUSEKEY_MOVE_DELTA 5
 #        else
-#            define MOUSEKEY_MOVE_DELTA 25
+#            define MOUSEKEY_MOVE_DELTA 5
 #        endif
 #    endif
 #    ifndef MOUSEKEY_WHEEL_DELTA
@@ -49,14 +49,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #        ifndef MK_KINETIC_SPEED
 #            define MOUSEKEY_DELAY 300
 #        else
-#            define MOUSEKEY_DELAY 8
+#            define MOUSEKEY_DELAY 16
 #        endif
 #    endif
 #    ifndef MOUSEKEY_INTERVAL
 #        ifndef MK_KINETIC_SPEED
 #            define MOUSEKEY_INTERVAL 50
 #        else
-#            define MOUSEKEY_INTERVAL 8
+#            define MOUSEKEY_INTERVAL 16
 #        endif
 #    endif
 #    ifndef MOUSEKEY_MAX_SPEED
@@ -79,10 +79,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    endif
 
 #    ifndef MOUSEKEY_INITIAL_SPEED
-#        define MOUSEKEY_INITIAL_SPEED 100
+#        define MOUSEKEY_INITIAL_SPEED 50
 #    endif
 #    ifndef MOUSEKEY_BASE_SPEED
-#        define MOUSEKEY_BASE_SPEED 1000
+#        define MOUSEKEY_BASE_SPEED 400
 #    endif
 #    ifndef MOUSEKEY_DECELERATED_SPEED
 #        define MOUSEKEY_DECELERATED_SPEED 400

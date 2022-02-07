@@ -84,6 +84,7 @@ void caps_word_set(bool active) {
     if (active) {
       clear_mods();
     }
+     tap_code(KC_CAPS);
 
     caps_word_active = active;
     caps_word_set_user(active);
@@ -98,7 +99,6 @@ __attribute__((weak)) bool caps_word_press_user(uint16_t keycode) {
   switch (keycode) {
     // Keycodes that continue Caps Word, with shift applied.
     case KC_A ... KC_Z:
-      add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to the next key.
       return true;
 
     // Keycodes that continue Caps Word, without shifting.
