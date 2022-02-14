@@ -9,7 +9,6 @@
 #define U_CPY C(KC_INS)
 #define U_CUT S(KC_DEL)
 #define U_UND KC_UNDO
-#include "features/autocorrection.h"
 #include "features/caps_word.h"
 #include "features/adaptive_keys.h"
 
@@ -59,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                 U_UND, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, U_NA, KC_CAPS,
                 KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, U_NA, KC_ALGR, U_NA, U_NA,
                 U_NA, KC_INS, KC_HOME, KC_PGDN, KC_PGUP, KC_END, U_NP, U_NP,
-                U_NA, U_NA, U_NA, KC_ENT, KC_BSPC, KC_DEL, U_NP, U_NP),
+                U_NA, U_NA, U_NA, KC_BSPC, KC_BSPC, KC_DEL, U_NP, U_NP),
     [MOUSE] = LAY(RESET, U_NA, U_NA, U_NA, U_NA, U_RDO, U_PST, U_CPY, U_CUT,
                   U_UND, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, U_NA, U_NU,
                   KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, U_NA, KC_ALGR, U_NA, U_NA,
